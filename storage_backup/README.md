@@ -58,7 +58,7 @@ terraform apply --auto-approve
 - 디스크 유형 : HDD
 - 프로토콜 : NFS
 
-## File Storage Mount 
+## File Storage Mount
 
 ```bash
 # 스토리지 마이그레이션 준비
