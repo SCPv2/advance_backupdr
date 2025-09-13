@@ -1,0 +1,40 @@
+﻿{
+    "postgresql_engines":  [
+                               {
+                                   "status":  "active",
+                                   "is_latest":  true,
+                                   "id":  "8a463aa4b1dc4f279c3f53b94dc45e74",
+                                   "type":  "PostgreSQL Community",
+                                   "version":  "16.8"
+                               }
+                           ],
+    "cachestore_engines":  [
+
+                           ],
+    "virtualserver_images":  {
+                                 "windows":  [
+                                                 {
+                                                     "status":  "active",
+                                                     "os_distro":  "windows",
+                                                     "name":  "Windows Server 2022 Std.",
+                                                     "id":  "fallback-windows-id",
+                                                     "scp_os_version":  "2022 Std."
+                                                 }
+                                             ],
+                                 "rocky":  [
+                                               {
+                                                   "status":  "active",
+                                                   "os_distro":  "rocky",
+                                                   "name":  "Rocky Linux 9.4",
+                                                   "id":  "fallback-rocky-id",
+                                                   "scp_os_version":  "9.4"
+                                               }
+                                           ]
+                             },
+    "metadata":  {
+                     "cache_ttl_hours":  24,
+                     "scpcli_available":  false,
+                     "fallback_mode":  true,
+                     "generated":  "2025-09-12T22:04:22Z"
+                 }
+}
