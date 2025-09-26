@@ -37,7 +37,7 @@ variable "rocky_image_id" {
 variable "server_type_id" {
   type        = string
   description = "[TERRAFORM_INFRA] Server type ID (instance type)"
-  default     = "s1v1m2" # for kr-west1
+  default     = "s2v1m2" # for kr-west1
 #  default     = "s2v1m2" # for kr-east1
 }
 
@@ -89,7 +89,7 @@ variable "rocky_image_id" {
 variable "server_type_id" {
   type        = string
   description = "[TERRAFORM_INFRA] Server type ID (instance type)"
-#  default     = "s1v1m2" # for kr-west1
+#  default     = "s2v1m2" # for kr-west1
   default     = "s2v1m2" # for kr-east1
 }
 
