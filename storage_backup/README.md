@@ -58,10 +58,9 @@ terraform apply --auto-approve
 - 디스크 유형 : HDD
 - 프로토콜 : NFS
 
-
 - 연결자원 : webvm111r
 
-## File Storage Mount Script 
+## File Storage Mount Script
 
 ```bash
 cd /home/rocky
@@ -537,6 +536,3 @@ sudo chmod +x upload_to_object_storage.sh
 cd /home/rocky/ceweb/artist/
 vi cloudy.html
 ```
-
-
-
