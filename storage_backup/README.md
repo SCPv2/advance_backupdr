@@ -12,7 +12,9 @@
 
 ## 실습 환경 배포
 
-- Terraform 배포
+**&#128906; 사용자 환경 구성 (\advance_backupdr\storage_backup\env_setup.ps1)**
+
+**&#128906; Terraform 자원 배포 템플릿 실행**
 
 ```bash
 terraform init
