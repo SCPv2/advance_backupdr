@@ -194,6 +194,12 @@ if mount | grep -q "$MOUNT_SOURCE"; then
     df -h | head -1
     df -h | grep "$MOUNT_SOURCE"
 
+    # 마운트된 디렉토리 소유권을 rocky로 변경
+    echo ""
+    echo "Changing ownership to rocky user..."
+    sudo chown rocky:rocky "$MOUNT_PATH"
+    echo "  Ownership changed to rocky:rocky"
+
     # 백업된 데이터 이동
     if [ -d "$BACKUP_PATH" ]; then
         echo ""
