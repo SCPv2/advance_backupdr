@@ -242,7 +242,15 @@ echo "File Storage Mount Complete!"
 echo "========================================="
 ```
 
+## 복구 볼륨 생성
+
+- 볼륨명 : `cefs_restore`
+- 
+- 연결자원 : webvm111r
+
 ```bash
+cd /home/rocky/ceweb
+mkdir media2
 sudo mount -t nfs -o vers=3,noresvport 10.10.10.10:/file_storage /home/rocky/ceweb/media2
 ```
 
