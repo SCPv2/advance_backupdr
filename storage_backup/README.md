@@ -243,7 +243,7 @@ echo "========================================="
 ```
 
 ```bash
-sudo vi mount_file_storage.sh
+sudo mount -t nfs -o vers=3,noresvport 10.10.10.10:/file_storage /home/rocky/ceweb/media2
 ```
 
 ## Object Storage 생성 및 콘텐츠 업로드
