@@ -3,7 +3,7 @@
                             "template_source":  "variables.tf",
                             "version":  "4.1.0",
                             "description":  "Samsung Cloud Platform 3-Tier Architecture Master Configuration with DBaaS",
-                            "created":  "2025-09-26 10:50:21",
+                            "created":  "2025-09-30 21:13:44",
                             "usage":  "This file contains all environment-specific settings for the application deployment",
                             "generator":  "variables_manager.ps1"
                         },
