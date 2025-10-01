@@ -292,9 +292,9 @@ log_error() { echo "$(red "[ERROR]") $1"; }
 log_warning() { echo "$(yellow "[WARNING]") $1"; }
 
 # Hardcoded Object Storage credentials
-ACCESS_KEY="a6a460c368d84f398c978218e0673af6"
-SECRET_KEY="7e9f707c-bccc-451f-b758-6ec16d21f056"
-BUCKET_STRING="89097ddf09b84d96af496aded95dac29"
+ACCESS_KEY="put_your_access_key_here"
+SECRET_KEY="put_your_secret_key_here"
+BUCKET_STRING="put_your_account_id_here"
 
 # Object Storage 엔드포인트 설정 (README.md 참조)
 ENDPOINT_URL="https://object-store.private.kr-west1.e.samsungsdscloud.com"
