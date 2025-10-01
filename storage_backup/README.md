@@ -548,7 +548,17 @@ sudo chmod +x upload_to_object_storage.sh
 ./upload_to_object_storage.sh
 ```
 
+## Editing Cloudy.html
+
+- https://github.com/SCPv2/ceweb/blob/main/artist/cloudy.html
+
+- `../media` 를 Object Storage Bucket의 URL로 변환
+
+- Object Storage > Public IP 허용 > 실습 PC IP 입력
+
 ```bash
 cd /home/rocky/ceweb/artist/
 vi cloudy.html
+
+## vi 에디터 에서 %d 엔터를 순서대로 입력하고, i를 타이핑 후 내용 복사
 ```
