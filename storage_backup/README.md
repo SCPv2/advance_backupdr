@@ -265,6 +265,8 @@ cd /home/rocky
 sudo vi upload_to_object_storage.sh
 ```
 
+- Access Key, Secret Key, Account Id를 입력해서 복사
+
 ```bash
 #!/bin/bash
 
