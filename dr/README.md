@@ -19,7 +19,7 @@
 ```json
 {
     "auth-url": "https://iam.e.samsungsdscloud.com/v1",
-    "default-region": "kr-west1"  # kr-west1 리전으로 설정
+    "default-region": "kr-west1"
 }
 ```
 
