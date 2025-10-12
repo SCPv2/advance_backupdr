@@ -14,9 +14,9 @@
 
 **&#128906; kr-west1에 실습 환경 배포**
 
-- %USERPROFILE%/.scpconf/config.json에서 설정 확인
+- %USERPROFILE%/.scpconf/config.json에서 설정 확인 : kr-west1
 
-```json
+```config
 {
     "auth-url": "https://iam.e.samsungsdscloud.com/v1",
     "default-region": "kr-west1"
