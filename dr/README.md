@@ -21,6 +21,8 @@
     "auth-url": "https://iam.e.samsungsdscloud.com/v1",
     "default-region": "kr-west1"       # kr-west1 리전으로 설정
 }
+```
+
 ```json
 
 - variables.tf 수정 : kr-west1이 활성화되도록 kr-east1 항목에 마스크(#) 처리
