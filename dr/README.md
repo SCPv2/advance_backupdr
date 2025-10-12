@@ -12,38 +12,20 @@
 
 ## 실습 환경 배포
 
+**&#128906; 사용자 환경 구성 (\advance_backupdr\dr\env_setup.ps1)**
+
 **&#128906; kr-west1에 실습 환경 배포**
 
-- %USERPROFILE%/.scpconf/config.json에서 설정 확인 : kr-west1
+- %USERPROFILE%/.scpconf/config.json에서 default-region 설정 확인 : kr-west1
 
-```config
+```json
 {
     "auth-url": "https://iam.e.samsungsdscloud.com/v1",
     "default-region": "kr-west1"
 }
 ```
 
-- variables.tf 수정 : kr-west1이 활성화되도록 kr-east1 항목에 마스크(#) 처리
-
-```hcl
-variable "rocky_image_id" {
-  type        = string
-  description = "[TERRAFORM_INFRA] Rocky Linux image ID"
-  default     = "253a91ea-1221-49d7-af53-a45c389e7e1a" # kr-west1
-#  default     = "99b329ad-14e1-4741-b3ef-2a330ef81074" # kr-east1
-}
-
-# Virtual Server 변수 정의
-variable "server_type_id" {
-  type        = string
-  description = "[TERRAFORM_INFRA] Server type ID (instance type)"
-  default     = "s2v1m2" # for kr-west1
-#  default     = "s2v1m2" # for kr-east1
-}
-
-```
-
-- Terraform 배포
+- Terraform 배포 (\advance_backupdr\dr\kr-west1)
 
 ```bash
 terraform init
@@ -58,44 +40,18 @@ terraform apply --auto-approve
 - kr-east1 에서 Keypair 생성
 
   - keypair 명: `mykey`
+  - download 받은 keypair ppk 변환 : mykey_e.ppk
 
-- 기본 terraform 배포 파일 삭제
-
-```powershell
-.\env_setup.ps1
-# 2. RESET     - Reset to initial values and clean the logs 를 실행하여 기존 환경 모두 제거
-```
-
-- %USERPROFILE%/.scpconf/config.json에서 설정 수정
+- %USERPROFILE%/.scpconf/config.json에서 default-region 설정 수정: kr-east-1
 
 ```json
 {
     "auth-url": "https://iam.e.samsungsdscloud.com/v1",
-    "default-region": "kr-east1"       # kr-east1 리전으로 수정
+    "default-region": "kr-east1" 
 }
-```json
-
-- variables.tf 수정 : kr-east1이 활성화되도록 kr-west1 항목에 마스크(#) 처리
-
-```hcl
-variable "rocky_image_id" {
-  type        = string
-  description = "[TERRAFORM_INFRA] Rocky Linux image ID"
-#  default     = "253a91ea-1221-49d7-af53-a45c389e7e1a" # kr-west1
-  default     = "99b329ad-14e1-4741-b3ef-2a330ef81074" # kr-east1
-}
-
-# Virtual Server 변수 정의
-variable "server_type_id" {
-  type        = string
-  description = "[TERRAFORM_INFRA] Server type ID (instance type)"
-#  default     = "s2v1m2" # for kr-west1
-  default     = "s2v1m2" # for kr-east1
-}
-
 ```
 
-- Terraform 배포
+- Terraform 배포 (\advance_backupdr\dr\kr-east1)
 
 ```bash
 terraform init
@@ -134,6 +90,8 @@ terraform apply --auto-approve
 |Terrafom|kr-east1 webSG|Outbound|0.0.0.0/0|TCP 443|HTTPS outbound to Internet|
 |Terrafom|kr-east1 webSG|Outbound|0.0.0.0/0|TCP 80|HTTP outbound to Internet|
 |Terrafom|kr-east1 webSG|Inbound|0.0.0.0/0|TCP 80|HTTP inbound from your PC|
+
+
 
 ## GSLB 생성
 
