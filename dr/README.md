@@ -23,8 +23,6 @@
 }
 ```
 
-```json
-
 - variables.tf 수정 : kr-west1이 활성화되도록 kr-east1 항목에 마스크(#) 처리
 
 ```hcl
