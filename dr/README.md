@@ -18,34 +18,14 @@
 
 - %USERPROFILE%/.scpconf/config.json에서 default-region 설정 확인 : kr-west1
 
-```config
+```json
 {
     "auth-url": "https://iam.e.samsungsdscloud.com/v1",
     "default-region": "kr-west1"
 }
-```json
-
-- variables.tf 수정 : kr-west1이 활성화되도록 kr-east1 항목에 마스크(#) 처리
-
-```hcl
-variable "rocky_image_id" {
-  type        = string
-  description = "[TERRAFORM_INFRA] Rocky Linux image ID"
-  default     = "253a91ea-1221-49d7-af53-a45c389e7e1a" # kr-west1
-#  default     = "99b329ad-14e1-4741-b3ef-2a330ef81074" # kr-east1
-}
-
-# Virtual Server 변수 정의
-variable "server_type_id" {
-  type        = string
-  description = "[TERRAFORM_INFRA] Server type ID (instance type)"
-  default     = "s2v1m2" # for kr-west1
-#  default     = "s2v1m2" # for kr-east1
-}
-
 ```
 
-- Terraform 배포
+- Terraform 배포 (\advance_backupdr\dr\kr-west1)
 
 ```bash
 terraform init
@@ -58,14 +38,9 @@ terraform apply --auto-approve
 **&#128906; kr-east1에 실습 환경 배포**
 
 - kr-east1 에서 Keypair 생성
+
   - keypair 명: `mykey`
-
-- 기본 terraform 배포 파일 삭제
-
-```powershell
-.\env_setup.ps1
-# 2. RESET     - Reset to initial values and clean the logs 를 실행하여 기존 환경 모두 제거
-```
+  - download 받은 keypair ppk 변환 : mykey_e.ppk
 
 - %USERPROFILE%/.scpconf/config.json에서 default-region 설정 수정: kr-east-1
 
@@ -324,6 +299,7 @@ echo "========================================="
 - GSLB IP 대역(콘솔 참조)을 kr-west1 리전과 kr-east1 리전의 Internet Gateway Firewall, Security Group에 허용 규칙 추가
 
 ## File Storage 복제 구성
+
 - 복제 위치 : kr-east1
 - 복제 볼륨명 : cefs
 - 비밀번호: ceadmin1234
@@ -331,6 +307,6 @@ echo "========================================="
 
 - 연결자원 : webvm111r
 
-## File Storage Mount Script 실행 (kr-east-1) 
+## File Storage Mount Script 실행 (kr-east-1)
 
 - 스크립트 위와 동일
