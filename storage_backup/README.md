@@ -2,7 +2,7 @@
 
 ## 선행 실습
 
-### 선택 '[과정 소개](https://github.com/SCPv2/ce_advance_introduction/blob/main/README.md)'
+### 선택 '[과정 소개](https://github.com/SCPv2/advance_introduction/blob/main/README.md)'
 
 - Key Pair, 인증키, DNS 등 사전 준비
 
@@ -25,7 +25,7 @@ terraform apply --auto-approve
 ## 환경 검토
 
 - Architectuer Diagram
-- VPC CIDR
+- VPC CIDRe
 - Subnet CIDR
 - Virtual Server OS, Public IP, Private IP
 - Firewall 규칙

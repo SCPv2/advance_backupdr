@@ -20,7 +20,7 @@ $ErrorActionPreference = "Stop"
 $ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 $ProjectDir = Split-Path -Parent $ScriptDir
 $LogsDir = Join-Path $ProjectDir "lab_logs"
-$VariablesTf = Join-Path $ProjectDir "variables.tf"
+$VariablesTf = Join-Path $ProjectDir "kr-west1\variables.tf"
 $VariablesJson = Join-Path $ScriptDir "variables.json"
 # Image/Engine cache file removed - values now hardcoded in variables.tf
 
@@ -348,9 +348,44 @@ function Update-VariablesTf {
     Set-Content -Path $VariablesTf -Value $content -Encoding UTF8
     
     Write-Success "variables.tf updated with user input values"
-    
+
     # Skip Terraform validation - it will be handled by terraform_manager
     Write-Info "Variables.tf updated successfully (Terraform validation will be done in terraform_manager)"
+}
+
+# Sync variables.tf from kr-west1 to kr-east1
+function Sync-VariablesToKrEast1 {
+    Write-Info "🔄 Syncing variables.tf from kr-west1 to kr-east1..."
+
+    # Define paths
+    $krWest1VariablesTf = Join-Path $ProjectDir "kr-west1\variables.tf"
+    $krEast1VariablesTf = Join-Path $ProjectDir "kr-east1\variables.tf"
+    $krEast1Dir = Join-Path $ProjectDir "kr-east1"
+
+    # Check if kr-west1/variables.tf exists
+    if (!(Test-Path $krWest1VariablesTf)) {
+        Write-Error "Source file not found: $krWest1VariablesTf"
+        return $false
+    }
+
+    # Check if kr-east1 directory exists, create if not
+    if (!(Test-Path $krEast1Dir)) {
+        Write-Warning "kr-east1 directory not found: $krEast1Dir"
+        Write-Info "Creating kr-east1 directory..."
+        New-Item -ItemType Directory -Path $krEast1Dir -Force | Out-Null
+    }
+
+    # Copy kr-west1/variables.tf to kr-east1/variables.tf (overwrite)
+    try {
+        Copy-Item $krWest1VariablesTf $krEast1VariablesTf -Force
+        Write-Success "✅ Synced variables.tf from kr-west1 to kr-east1"
+        Write-Info "Target: $krEast1VariablesTf"
+        return $true
+    }
+    catch {
+        Write-Error "Failed to sync variables.tf: $($_.Exception.Message)"
+        return $false
+    }
 }
 
 # Generate variables.json from collected data
@@ -600,7 +635,10 @@ function Main {
     
     # Update variables.tf with user input
     Update-VariablesTf $updatedUserVars
-    
+
+    # Sync variables.tf to kr-east1
+    Sync-VariablesToKrEast1
+
     # Generate variables.json
     New-VariablesJson $updatedUserVars $cewebRequiredVars
     
@@ -622,6 +660,8 @@ try {
     if ($Reset) {
         # Direct reset without user interaction
         if (Reset-UserInputVariables) {
+            # Sync reset variables to kr-east1
+            Sync-VariablesToKrEast1
             Write-Success "✅ Variables reset completed successfully!"
             exit 0
         } else {

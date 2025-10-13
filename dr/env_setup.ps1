@@ -26,7 +26,7 @@ $ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 $ScriptsDir = Join-Path $ScriptDir "scripts"
 $LogsDir = Join-Path $ScriptDir "lab_logs"
 $TerraformLogsDir = Join-Path $ScriptDir "lab_logs"
-$VariablesTf = Join-Path $ScriptDir "variables.tf"
+$VariablesTf = Join-Path $ScriptDir "kr-west1\variables.tf"
 $VariablesJson = Join-Path $ScriptsDir "variables.json"
 
 # Master deployment log
@@ -1088,50 +1088,65 @@ function Invoke-Reset {
         
         if ($terraformConfirm -eq "DELETE") {
             Write-Info "🗑️ Cleaning up Terraform files..."
-            
-            # Clean Terraform files in project directory
+
+            # Clean Terraform files in kr-west1 and kr-east1 directories
             $terraformFiles = @(
                 ".terraform",
-                "terraform.tfstate", 
+                "terraform.tfstate",
                 "terraform.tfstate.backup",
                 "terraform.tfstate.backup.*",
                 ".terraform.lock.hcl",
                 ".terraform.tfstate.lock.info",
                 "*.tfplan"
             )
-            
+
             $cleanedCount = 0
-            
-            # Handle .terraform directory separately (direct path check)
-            $terraformDir = Join-Path $ScriptDir ".terraform"
-            if (Test-Path $terraformDir) {
-                Remove-Item -Path $terraformDir -Recurse -Force -ErrorAction SilentlyContinue
-                Write-Success "Removed .terraform/"
-                $cleanedCount++
-            }
-            
-            # Handle other terraform files with patterns
-            $filePatterns = @(
-                "terraform.tfstate", 
-                "terraform.tfstate.backup",
-                "terraform.tfstate.backup.*",
-                ".terraform.lock.hcl",
-                ".terraform.tfstate.lock.info",
-                "*.tfplan"
+
+            # Directories to clean
+            $targetDirs = @(
+                (Join-Path $ScriptDir "kr-west1"),
+                (Join-Path $ScriptDir "kr-east1")
             )
-            
-            foreach ($pattern in $filePatterns) {
-                $files = Get-ChildItem -Path $ScriptDir -Name $pattern -Force -ErrorAction SilentlyContinue
-                foreach ($file in $files) {
-                    $fullPath = Join-Path $ScriptDir $file
-                    if (Test-Path $fullPath) {
-                        Remove-Item -Path $fullPath -Force -ErrorAction SilentlyContinue
-                        Write-Success "Removed $file"
+
+            foreach ($targetDir in $targetDirs) {
+                if (Test-Path $targetDir) {
+                    Write-Info "Cleaning Terraform files in $(Split-Path $targetDir -Leaf)..."
+
+                    # Handle .terraform directory separately (direct path check)
+                    $terraformDir = Join-Path $targetDir ".terraform"
+                    if (Test-Path $terraformDir) {
+                        Remove-Item -Path $terraformDir -Recurse -Force -ErrorAction SilentlyContinue
+                        Write-Success "Removed $(Split-Path $targetDir -Leaf)/.terraform/"
                         $cleanedCount++
                     }
+
+                    # Handle other terraform files with patterns
+                    $filePatterns = @(
+                        "terraform.tfstate",
+                        "terraform.tfstate.backup",
+                        "terraform.tfstate.backup.*",
+                        ".terraform.lock.hcl",
+                        ".terraform.tfstate.lock.info",
+                        "*.tfplan"
+                    )
+
+                    foreach ($pattern in $filePatterns) {
+                        $files = Get-ChildItem -Path $targetDir -Name $pattern -Force -ErrorAction SilentlyContinue
+                        foreach ($file in $files) {
+                            $fullPath = Join-Path $targetDir $file
+                            if (Test-Path $fullPath) {
+                                Remove-Item -Path $fullPath -Force -ErrorAction SilentlyContinue
+                                Write-Success "Removed $(Split-Path $targetDir -Leaf)/$file"
+                                $cleanedCount++
+                            }
+                        }
+                    }
+                }
+                else {
+                    Write-Warning "Directory not found: $(Split-Path $targetDir -Leaf)"
                 }
             }
-            
+
             if ($cleanedCount -eq 0) {
                 Write-Info "No Terraform files found to clean"
             }

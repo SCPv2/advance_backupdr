@@ -121,7 +121,7 @@ resource "samsungcloudplatformv2_firewall_firewall_rule" "web_ssh_in_fw" {
     action              = "ALLOW"
     direction           = "INBOUND"
     status              = "ENABLE"
-    source_address      = ["0.0.0.0/0"]
+    source_address      = [var.user_public_ip]
     destination_address = [var.web_ip]
     description         = "SSH inbound to web server"
     service = [

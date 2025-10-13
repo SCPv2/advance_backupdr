@@ -21,14 +21,14 @@ variable "common_tags" {
 variable "private_domain_name" {
   type        = string
   description = "[USER_INPUT] Private domain name (e.g., internal.local)"
-  default     = "your_private_domain.name"
+  default     = "cesvc.net"
 }
 
 
 variable "public_domain_name" {
   type        = string
   description = "[USER_INPUT] Public domain name (e.g., example.com)"
-  default     = "your_public_domain.name"
+  default     = "creative-energy.net"
 }
 
 variable "keypair_name" {
@@ -40,27 +40,27 @@ variable "keypair_name" {
 variable "user_public_ip" {
   type        = string
   description = "[USER_INPUT] Public IP address of user PC"
-  default     = "your_public_ip/32"
+  default     = "14.39.93.74"
 }
 
 # Optional Object Storage variables (can be empty for basic 3-tier)
 variable "object_storage_access_key_id" {
   type        = string
   description = "[USER_INPUT] Object Storage access key ID (optional)"
-  default     = "put_your_authentificate_access_key_here"
+  default     = "0c75276b96964639a776543eff22eff2"
 }
 
 variable "object_storage_secret_access_key" {
   type        = string
   description = "[USER_INPUT] Object Storage secret access key (optional)"
-  default     = "put_your_authentificate_secret_key_here"
+  default     = "424527a9-d22e-4321-8025-b8444f837048"
   sensitive   = true
 }
 
 variable "object_storage_bucket_string" {
   type        = string
   description = "[USER_INPUT] Object Storage bucket string (optional)"
-  default     = "put_your_account_id_here"
+  default     = "89097ddf09b84d96af496aded95dac29"
 }
 
 ########################################################
@@ -345,8 +345,7 @@ variable "cachestore_engine_id" {
 variable "server_type_id" {
   type        = string
   description = "[TERRAFORM_INFRA] Server type ID (instance type)"
-  #  default     = "s2v1m2" # for kr-west1
-  default = "s2v1m2" # for kr-east1
+  default = "s2v1m2"
 }
 
 variable "vm_bastion" {
@@ -517,20 +516,6 @@ variable "image_rocky_scp_os_version" {
   description = "[TERRAFORM_INFRA] Rocky Linux SCP OS version for image lookup"
   default     = "9.4"
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

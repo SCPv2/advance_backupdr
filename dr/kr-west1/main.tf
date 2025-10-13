@@ -161,7 +161,7 @@ resource "samsungcloudplatformv2_security_group_security_group_rule" "web_ssh_in
   port_range_min    = 22
   port_range_max    = 22
   description       = "SSH inbound"
-  remote_ip_prefix  = "0.0.0.0/0"
+  remote_ip_prefix  = var.user_public_ip
 
   depends_on = [samsungcloudplatformv2_security_group_security_group.web_sg]
 }
@@ -292,7 +292,7 @@ resource "samsungcloudplatformv2_virtualserver_server" "vm_web" {
     }
   }
   security_groups = [samsungcloudplatformv2_security_group_security_group.web_sg.id] 
-  user_data = base64encode(file("${path.module}/scripts/generated_userdata/userdata_web.sh"))
+  user_data = base64encode(file("${path.module}/../scripts/generated_userdata/userdata_web.sh"))
   depends_on = [
     samsungcloudplatformv2_vpc_subnet.web_subnet,
     samsungcloudplatformv2_security_group_security_group.web_sg,
