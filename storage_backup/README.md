@@ -12,7 +12,9 @@
 
 ## 실습 환경 배포
 
-- Terraform 배포
+**&#128906; 사용자 환경 구성 (\advance_backupdr\storage_backup\env_setup.ps1)**
+
+**&#128906; Terraform 자원 배포 템플릿 실행**
 
 ```bash
 terraform init
@@ -192,6 +194,12 @@ if mount | grep -q "$MOUNT_SOURCE"; then
     df -h | head -1
     df -h | grep "$MOUNT_SOURCE"
 
+    # 마운트된 디렉토리 소유권을 rocky로 변경
+    echo ""
+    echo "Changing ownership to rocky user..."
+    sudo chown rocky:rocky "$MOUNT_PATH"
+    echo "  Ownership changed to rocky:rocky"
+
     # 백업된 데이터 이동
     if [ -d "$BACKUP_PATH" ]; then
         echo ""
@@ -234,8 +242,16 @@ echo "File Storage Mount Complete!"
 echo "========================================="
 ```
 
+## 복구 볼륨 생성
+
+- 볼륨명 : `cefs_restore`
+
+- 연결자원 : webvm111r
+
 ```bash
-sudo vi mount_file_storage.sh
+cd /home/rocky/ceweb
+mkdir media2
+sudo mount -t nfs -o vers=3,noresvport 10.10.10.10:/file_storage /home/rocky/ceweb/media2
 ```
 
 ## Object Storage 생성 및 콘텐츠 업로드
@@ -248,6 +264,8 @@ sudo vi mount_file_storage.sh
 cd /home/rocky
 sudo vi upload_to_object_storage.sh
 ```
+
+- Access Key, Secret Key, Account Id를 입력해서 복사
 
 ```bash
 #!/bin/bash
@@ -276,9 +294,9 @@ log_error() { echo "$(red "[ERROR]") $1"; }
 log_warning() { echo "$(yellow "[WARNING]") $1"; }
 
 # Hardcoded Object Storage credentials
-ACCESS_KEY="a6a460c368d84f398c978218e0673af6"
-SECRET_KEY="7e9f707c-bccc-451f-b758-6ec16d21f056"
-BUCKET_STRING="89097ddf09b84d96af496aded95dac29"
+ACCESS_KEY="put_your_access_key_here"
+SECRET_KEY="put_your_secret_key_here"
+BUCKET_STRING="put_your_account_id_here"
 
 # Object Storage 엔드포인트 설정 (README.md 참조)
 ENDPOINT_URL="https://object-store.private.kr-west1.e.samsungsdscloud.com"
@@ -530,9 +548,19 @@ echo "========================================="
 ```bash
 sudo chmod +x upload_to_object_storage.sh
 ./upload_to_object_storage.sh
-```
 
+```
 ```bash
 cd /home/rocky/ceweb/artist/
 vi cloudy.html
 ```
+
+## Editing Cloudy.html
+
+- https://github.com/SCPv2/ceweb/blob/main/artist/cloudy.html
+
+- `../media` 를 Object Storage Bucket의 URL로 변환 후 복사
+
+- vi 에디터 에서 %d 엔터를 순서대로 입력하고, i를 타이핑 후 내용 복사
+
+- Object Storage > Public IP 허용 > 실습 PC IP 입력
