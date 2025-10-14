@@ -304,7 +304,9 @@ echo "========================================="
 - Timeout : 6
 - Probe Timeout : 5
 - Service Port : 80
-- 알고리즘 : Round Robin
+- 알고리즘 : Ratio
+  - kr- west1: 100
+  - kr-east-1: 0
 
 ## 통신 제어 규칙 추가
 
