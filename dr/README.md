@@ -279,6 +279,19 @@ echo "File Storage Mount Complete!"
 echo "========================================="
 ```
 
+## File Storage 복제 구성
+
+- 복제 위치 : kr-east1
+- 복제 볼륨명 : cefs
+- 비밀번호: ceadmin1234
+- 복제 주기: 5분
+
+- 연결자원 : webvm111r
+
+## File Storage Mount Script 실행 (kr-east-1)
+
+- 스크립트 위와 동일
+
 ## GSLB 생성
 
 - 도메인명 : ceweb
@@ -298,15 +311,4 @@ echo "========================================="
 
 - GSLB IP 대역(콘솔 참조)을 kr-west1 리전과 kr-east1 리전의 Internet Gateway Firewall, Security Group에 허용 규칙 추가
 
-## File Storage 복제 구성
 
-- 복제 위치 : kr-east1
-- 복제 볼륨명 : cefs
-- 비밀번호: ceadmin1234
-- 복제 주기: 5분
-
-- 연결자원 : webvm111r
-
-## File Storage Mount Script 실행 (kr-east-1)
-
-- 스크립트 위와 동일
