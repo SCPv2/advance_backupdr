@@ -8,14 +8,14 @@
                             "generator":  "variables_manager.ps1"
                         },
     "user_input_variables":  {
-                                 "object_storage_access_key_id":  "0c75276b96964639a776543eff22eff2",
-                                 "public_domain_name":  "creative-energy.net",
+                                 "object_storage_access_key_id":  "",
+                                 "public_domain_name":  "",
                                  "keypair_name":  "mykey",
-                                 "object_storage_secret_access_key":  "424527a9-d22e-4321-8025-b8444f837048",
+                                 "object_storage_secret_access_key":  "",
                                  "_source":  "variables.tf USER_INPUT category",
-                                 "private_domain_name":  "cesvc.net",
-                                 "object_storage_bucket_string":  "89097ddf09b84d96af496aded95dac29",
-                                 "user_public_ip":  "14.39.93.74",
+                                 "private_domain_name":  "",
+                                 "object_storage_bucket_string":  "",
+                                 "user_public_ip":  "",
                                  "_comment":  "Variables that users input interactively during deployment"
                              },
     "ceweb_required_variables":  {
