@@ -1,7 +1,0 @@
-# Samsung Cloud Platform v2 - Changes Tracking Log (logs.log)
-# Format: timestamp|action|target|details
-# Actions: CREATE, MODIFY, DELETE, TERRAFORM_APPLY, TERRAFORM_DESTROY
-# This file tracks all changes for proper cleanup/reset
-2025-10-14 13:21:54|DEPLOYMENT_START|infrastructure|Started deployment process
-2025-10-14 13:22:01|CREATE|variables.json|Generated from variables.tf
-2025-10-14 13:22:02|CREATE|userdata_files|Generated web/app/db UserData
