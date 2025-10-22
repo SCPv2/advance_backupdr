@@ -1,5 +1,19 @@
 # 서버/데이터베이스 백업 구성
 
+## 실습 환경 배포
+
+**&#128906; 사용자 환경 구성 (\advance_backupdr\server_db_backup\env_setup.ps1)**
+
+**&#128906; Terraform 자원 배포 템플릿 실행**
+
+```bash
+terraform init
+terraform validate
+terraform plan
+
+terraform apply --auto-approve
+```
+
 ## pgAdmin 4 설치
 
 - pgAdmin [다운로드](https://www.pgadmin.org/download/)
