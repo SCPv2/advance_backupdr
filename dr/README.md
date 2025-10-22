@@ -1,4 +1,4 @@
-# Disaster Recovery 구성
+# 재해복구(DR) 구현
 
 ## 선행 실습
 
