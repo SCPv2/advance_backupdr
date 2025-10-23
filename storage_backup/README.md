@@ -36,13 +36,13 @@ terraform apply --auto-approve
 
 |Deployment|Security Group|Direction|Target Address/Remote SG|Service|Description|
 |:-----:|:-----:|:-----:|:-----:|:-----:|:-----|
-|Terrafom|kr-west1 webSG|Outbound|0.0.0.0/0|TCP 443|HTTPS outbound to Internet|
-|Terrafom|kr-west1 webSG|Outbound|0.0.0.0/0|TCP 80|HTTP outbound to Internet|
-|Terrafom|kr-west1 webSG|Inbound|0.0.0.0/0|TCP 80|HTTP inbound from your PC|
+|Terraform|kr-west1 webSG|Outbound|0.0.0.0/0|TCP 443|HTTPS outbound to Internet|
+|Terraform|kr-west1 webSG|Outbound|0.0.0.0/0|TCP 80|HTTP outbound to Internet|
+|Terraform|kr-west1 webSG|Inbound|0.0.0.0/0|TCP 80|HTTP inbound from your PC|
 |||||||
-|Terrafom|kr-east1 webSG|Outbound|0.0.0.0/0|TCP 443|HTTPS outbound to Internet|
-|Terrafom|kr-east1 webSG|Outbound|0.0.0.0/0|TCP 80|HTTP outbound to Internet|
-|Terrafom|kr-east1 webSG|Inbound|0.0.0.0/0|TCP 80|HTTP inbound from your PC|
+|Terraform|kr-east1 webSG|Outbound|0.0.0.0/0|TCP 443|HTTPS outbound to Internet|
+|Terraform|kr-east1 webSG|Outbound|0.0.0.0/0|TCP 80|HTTP outbound to Internet|
+|Terraform|kr-east1 webSG|Inbound|0.0.0.0/0|TCP 80|HTTP inbound from your PC|
 
 ## File Storage 생성 및 서버 연결
 
@@ -540,6 +540,7 @@ sudo chmod +x upload_to_object_storage.sh
 ./upload_to_object_storage.sh
 
 ```
+
 ```bash
 cd /home/rocky/ceweb/artist/
 vi cloudy.html
@@ -547,7 +548,7 @@ vi cloudy.html
 
 ## Editing Cloudy.html
 
-- https://github.com/SCPv2/ceweb/blob/main/artist/cloudy.html
+- <https://github.com/SCPv2/ceweb/blob/main/artist/cloudy.html>
 
 - `../media` 를 Object Storage Bucket의 URL로 변환 후 복사
 

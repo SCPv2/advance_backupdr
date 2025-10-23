@@ -73,13 +73,13 @@ terraform apply --auto-approve
 
 |Deployment|Security Group|Direction|Target Address/Remote SG|Service|Description|
 |:-----:|:-----:|:-----:|:-----:|:-----:|:-----|
-|Terrafom|kr-west1 webSG|Outbound|0.0.0.0/0|TCP 443|HTTPS outbound to Internet|
-|Terrafom|kr-west1 webSG|Outbound|0.0.0.0/0|TCP 80|HTTP outbound to Internet|
-|Terrafom|kr-west1 webSG|Inbound|0.0.0.0/0|TCP 80|HTTP inbound from your PC|
+|Terraform|kr-west1 webSG|Outbound|0.0.0.0/0|TCP 443|HTTPS outbound to Internet|
+|Terraform|kr-west1 webSG|Outbound|0.0.0.0/0|TCP 80|HTTP outbound to Internet|
+|Terraform|kr-west1 webSG|Inbound|0.0.0.0/0|TCP 80|HTTP inbound from your PC|
 |||||||
-|Terrafom|kr-east1 webSG|Outbound|0.0.0.0/0|TCP 443|HTTPS outbound to Internet|
-|Terrafom|kr-east1 webSG|Outbound|0.0.0.0/0|TCP 80|HTTP outbound to Internet|
-|Terrafom|kr-east1 webSG|Inbound|0.0.0.0/0|TCP 80|HTTP inbound from your PC|
+|Terraform|kr-east1 webSG|Outbound|0.0.0.0/0|TCP 443|HTTPS outbound to Internet|
+|Terraform|kr-east1 webSG|Outbound|0.0.0.0/0|TCP 80|HTTP outbound to Internet|
+|Terraform|kr-east1 webSG|Inbound|0.0.0.0/0|TCP 80|HTTP inbound from your PC|
 
 ## File Storage 생성 및 서버 연결 (kr-west1)
 
@@ -301,5 +301,3 @@ echo "========================================="
 ## 통신 제어 규칙 추가
 
 - GSLB IP 대역(콘솔 참조)을 kr-west1 리전과 kr-east1 리전의 Internet Gateway Firewall, Security Group에 허용 규칙 추가
-
-
