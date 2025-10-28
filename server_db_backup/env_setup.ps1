@@ -240,7 +240,7 @@ function Show-MainBanner {
     Clear-Host
     Cyan "========================================================"
     Cyan "SCP v2 Advance - Lab Environment Manager"
-    Cyan "Disaster Recovery with Dynamic Configuration"
+    Cyan "Server Database Backup with Dynamic Configuration"
     Cyan "========================================================"
     Write-Host ""
     Write-Host "Choose Operation Mode:" -ForegroundColor White -BackgroundColor Black
@@ -1033,35 +1033,36 @@ function Invoke-Reset {
         }
     } while ($true)
     
-    # Ask about cleaning logs 
+    # Ask about cleaning logs
     Write-Host ""
     Yellow "🗂️  STEP 2: LOG CLEANUP"
     Write-Host ""
     Write-Host "Clean deployment logs and backups:" -ForegroundColor White
     Write-Host "• lab_logs/ - All deployment logs and backups" -ForegroundColor Gray
     Write-Host ""
-    
+
     $logsCleanup = $false
     do {
-        Write-Host -NoNewline -ForegroundColor Red "Clean logs? Type 'delete' or 'N' to skip: "
+        Write-Host -NoNewline -ForegroundColor Yellow "Clean logs? Type 'delete' or 'N' to skip: "
         $logsConfirm = Read-Host
         $logsConfirm = $logsConfirm.Trim().ToUpper()
-        
+
         if ($logsConfirm -eq "DELETE") {
             Write-Info "🗑️ Cleaning up logs..."
             $logsCleanup = $true
-            
+
             # Clean lab_logs directory
             if (Test-Path $LogsDir) {
                 Remove-Item -Path $LogsDir -Recurse -Force -ErrorAction SilentlyContinue
                 Write-Success "Removed lab_logs/ directory"
+                Add-ChangeTracking "DELETE" "lab_logs" "Log directory cleaned during reset"
             }
             else {
                 Write-Info "No lab_logs/ directory found"
             }
             break
         }
-        elseif ($logsConfirm -eq "N") {
+        elseif ($logsConfirm -eq "N" -or $logsConfirm -eq "NO") {
             Write-Info "Skipping logs cleanup"
             break
         }
@@ -1076,71 +1077,71 @@ function Invoke-Reset {
     Write-Host ""
     Write-Host "Clean Terraform state and initialization files:" -ForegroundColor White
     Write-Host "• .terraform/ - Terraform initialization directory" -ForegroundColor Gray
-    Write-Host "• terraform.tfstate* - Terraform state files and backups" -ForegroundColor Gray  
+    Write-Host "• terraform.tfstate* - Terraform state files and backups" -ForegroundColor Gray
     Write-Host "• .terraform.lock.hcl - Terraform lock file" -ForegroundColor Gray
     Write-Host "• *.tfplan - Terraform plan files" -ForegroundColor Gray
     Write-Host ""
-    
+
     do {
-        Write-Host -NoNewline -ForegroundColor Red "Clean Terraform files? Type 'delete' or 'N' to skip: "
+        Write-Host -NoNewline -ForegroundColor Yellow "Clean Terraform files? Type 'delete' or 'N' to skip: "
         $terraformConfirm = Read-Host
         $terraformConfirm = $terraformConfirm.Trim().ToUpper()
-        
+
         if ($terraformConfirm -eq "DELETE") {
             Write-Info "🗑️ Cleaning up Terraform files..."
-            
-            # Clean Terraform files in project directory
-            $terraformFiles = @(
-                ".terraform",
-                "terraform.tfstate", 
-                "terraform.tfstate.backup",
-                "terraform.tfstate.backup.*",
-                ".terraform.lock.hcl",
-                ".terraform.tfstate.lock.info",
-                "*.tfplan"
-            )
-            
+
             $cleanedCount = 0
-            
-            # Handle .terraform directory separately (direct path check)
+
+            # Handle .terraform directory
             $terraformDir = Join-Path $ScriptDir ".terraform"
             if (Test-Path $terraformDir) {
                 Remove-Item -Path $terraformDir -Recurse -Force -ErrorAction SilentlyContinue
                 Write-Success "Removed .terraform/"
                 $cleanedCount++
             }
-            
-            # Handle other terraform files with patterns
-            $filePatterns = @(
-                "terraform.tfstate", 
+
+            # Handle individual terraform files (exact names)
+            $exactFiles = @(
+                "terraform.tfstate",
                 "terraform.tfstate.backup",
-                "terraform.tfstate.backup.*",
                 ".terraform.lock.hcl",
-                ".terraform.tfstate.lock.info",
-                "*.tfplan"
+                ".terraform.tfstate.lock.info"
             )
-            
-            foreach ($pattern in $filePatterns) {
-                $files = Get-ChildItem -Path $ScriptDir -Name $pattern -Force -ErrorAction SilentlyContinue
-                foreach ($file in $files) {
-                    $fullPath = Join-Path $ScriptDir $file
-                    if (Test-Path $fullPath) {
-                        Remove-Item -Path $fullPath -Force -ErrorAction SilentlyContinue
-                        Write-Success "Removed $file"
-                        $cleanedCount++
-                    }
+
+            foreach ($fileName in $exactFiles) {
+                $fullPath = Join-Path $ScriptDir $fileName
+                if (Test-Path $fullPath) {
+                    Remove-Item -Path $fullPath -Force -ErrorAction SilentlyContinue
+                    Write-Success "Removed $fileName"
+                    $cleanedCount++
                 }
             }
-            
+
+            # Handle pattern-based terraform files
+            $patternFiles = @(
+                "terraform.tfstate.backup.*",
+                "*.tfplan"
+            )
+
+            foreach ($pattern in $patternFiles) {
+                $files = Get-ChildItem -Path $ScriptDir -Filter $pattern -Force -ErrorAction SilentlyContinue
+                foreach ($file in $files) {
+                    Remove-Item -Path $file.FullName -Force -ErrorAction SilentlyContinue
+                    Write-Success "Removed $($file.Name)"
+                    $cleanedCount++
+                }
+            }
+
             if ($cleanedCount -eq 0) {
                 Write-Info "No Terraform files found to clean"
             }
             else {
                 Write-Success "Cleaned up $cleanedCount Terraform files/directories"
+                Add-ChangeTracking "DELETE" "terraform_files" "Cleaned $cleanedCount Terraform files during reset"
             }
             break
         }
-        elseif ($terraformConfirm -eq "N") {
+        elseif ($terraformConfirm -eq "N" -or $terraformConfirm -eq "NO") {
             Write-Info "Skipping Terraform files cleanup"
             break
         }
@@ -1149,25 +1150,28 @@ function Invoke-Reset {
         }
     } while ($true)
     
+    # Reset completion summary
     Write-Host ""
     Cyan "================================================================"
     Write-Success "🎉 RESET PROCESS COMPLETED!"
     Cyan "================================================================"
-    
-    Write-Host ""
-    Write-Host -NoNewline -ForegroundColor Yellow "Press any key to return to main menu... "
-    $null = Read-Host
-    
-    return "return_to_menu"
+
     Write-Host ""
     Write-Info "📊 Reset Summary:"
     Write-Info "  ✅ variables.tf reset to default values"
-    Write-Info "  ✅ Backup created in lab_logs/"
-    Write-Info "  ✅ Ready for fresh variable configuration"
+    Write-Info "  ✅ Backup created in lab_logs/ (if applicable)"
+    Write-Info "  ✅ Logs cleanup: $(if ($logsCleanup) { 'Completed' } else { 'Skipped' })"
+    Write-Info "  ✅ Terraform files cleanup: Completed based on user selection"
     Write-Host ""
     Write-Info "Next steps:"
-    Write-Info "  1. Run DEPLOY mode to configure variables interactively"
+    Write-Info "  1. Run NORMALIZE mode to configure variables interactively"
     Write-Info "  2. Or manually edit variables.tf with your values"
+    Write-Host ""
+
+    Write-Host -NoNewline -ForegroundColor Yellow "Press Enter to return to main menu... "
+    $null = Read-Host
+
+    return "return_to_menu"
 }
 
 function Main {

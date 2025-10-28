@@ -91,8 +91,8 @@ variable "app_ip" {
 
 variable "db_ip" {
   type        = string
-  description = "[CEWEB_REQUIRED] Private IP address of db VM"
-  default     = "10.1.3.131"
+  description = "[CEWEB_REQUIRED] Private IP address of database (DBaaS endpoint)"
+  default     = "10.1.3.132"
 }
 
 variable "web_lb_service_ip" {
@@ -246,7 +246,7 @@ variable "vpcs" {
   }))
   default = [
     {
-      name        = "VPC2"
+      name        = "VPC1"
       cidr        = "10.1.0.0/16"
       description = "ceweb VPC"
     }
@@ -517,6 +517,13 @@ variable "image_rocky_scp_os_version" {
   description = "[TERRAFORM_INFRA] Rocky Linux SCP OS version for image lookup"
   default     = "9.4"
 }
+
+
+
+
+
+
+
 
 
 
