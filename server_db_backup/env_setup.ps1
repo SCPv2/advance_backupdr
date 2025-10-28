@@ -25,8 +25,6 @@ Set-StrictMode -Version Latest
 $ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 $ScriptsDir = Join-Path $ScriptDir "scripts"
 $LogsDir = Join-Path $ScriptDir "lab_logs"
-$TerraformLogsDir = Join-Path $ScriptDir "lab_logs"
-$VariablesTf = Join-Path $ScriptDir "variables.tf"
 $VariablesJson = Join-Path $ScriptsDir "variables.json"
 
 # Master deployment log
@@ -258,9 +256,9 @@ function Show-MainBanner {
 function Get-OperationMode {
     while ($true) {
         Write-Host -NoNewline -ForegroundColor Cyan "Select option (1-3): "
-        $input = Read-Host
-        
-        switch ($input) {
+        $userInput = Read-Host
+
+        switch ($userInput) {
             { $_ -in @("1", "normalize", "NORMALIZE") } {
                 $global:OperationMode = "normalize"
                 Write-Info "NORMALIZE mode selected - Variables and UserData preparation"
@@ -279,7 +277,7 @@ function Get-OperationMode {
                 Red "Please select an option (1-3)"
             }
             default {
-                Red "Invalid option: '$input'. Please select 1, 2, or 3."
+                Red "Invalid option: '$userInput'. Please select 1, 2, or 3."
             }
         }
     }
