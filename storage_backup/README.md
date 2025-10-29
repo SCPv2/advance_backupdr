@@ -27,22 +27,18 @@ terraform apply --auto-approve
 
 |Deployment|Firewall|Source|Destination|Service|Action|Direction|Description|
 |:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----|
-|Terraform|kr-west1 IGW|10.1.1.0/24|0.0.0.0/0|TCP 80, 443|Allow|Outbound|HTTP/HTTPS outbound from vm to Internet|
-|Terraform|kr-west1 IGW|0.0.0.0/0|10.1.1.0/24|TCP 80|Allow|Inbound|HTTP inbound to vm|
-|Terraform|kr-east1 IGW|10.1.1.0/24|0.0.0.0/0|TCP 80, 443|Allow|Outbound|HTTP/HTTPS outbound from vm to Internet|
-|Terraform|kr-east1 IGW|0.0.0.0/0|10.1.1.0/24|TCP 80|Allow|Inbound|HTTP inbound to vm|
+|Terraform|IGW|{web_ip}|0.0.0.0/0|TCP 80, 443|Allow|Outbound|HTTP/HTTPS outbound to Internet|
+|Terraform|IGW|0.0.0.0/0|{web_ip}|TCP 80|Allow|Inbound|HTTP inbound to web server|
+|Terraform|IGW|{user_public_ip}|{web_ip}|TCP 22|Allow|Inbound|SSH inbound to web server|
 
 ### Security Group
 
 |Deployment|Security Group|Direction|Target Address/Remote SG|Service|Description|
 |:-----:|:-----:|:-----:|:-----:|:-----:|:-----|
-|Terraform|kr-west1 webSG|Outbound|0.0.0.0/0|TCP 443|HTTPS outbound to Internet|
-|Terraform|kr-west1 webSG|Outbound|0.0.0.0/0|TCP 80|HTTP outbound to Internet|
-|Terraform|kr-west1 webSG|Inbound|0.0.0.0/0|TCP 80|HTTP inbound from your PC|
-|||||||
-|Terraform|kr-east1 webSG|Outbound|0.0.0.0/0|TCP 443|HTTPS outbound to Internet|
-|Terraform|kr-east1 webSG|Outbound|0.0.0.0/0|TCP 80|HTTP outbound to Internet|
-|Terraform|kr-east1 webSG|Inbound|0.0.0.0/0|TCP 80|HTTP inbound from your PC|
+|Terraform|webSG|Egress|0.0.0.0/0|TCP 443|HTTPS outbound to Internet|
+|Terraform|webSG|Egress|0.0.0.0/0|TCP 80|HTTP outbound to Internet|
+|Terraform|webSG|Ingress|0.0.0.0/0|TCP 80|HTTP inbound|
+|Terraform|webSG|Ingress|0.0.0.0/0|TCP 22|SSH inbound|
 
 ## File Storage 생성 및 서버 연결
 
