@@ -514,7 +514,7 @@ variable "image_rocky_os_distro" {
 variable "image_rocky_scp_os_version" {
   type        = string
   description = "[TERRAFORM_INFRA] Rocky Linux SCP OS version for image lookup"
-  default     = "9.4"
+  default     = "9.6"
 }
 
 

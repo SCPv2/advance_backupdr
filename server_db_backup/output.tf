@@ -18,7 +18,7 @@ output "server_information" {
       name = var.vm_web.name
       private_ip = var.web_ip
       public_ip = "Available after deployment"
-      os = "Rocky Linux 9.4"
+      os = "Rocky Linux 9.6"
       service_port = var.nginx_port
       access = "SSH via public IP"
       userdata = "userdata_web.sh"
